@@ -8,24 +8,27 @@ namespace DiskraChecker
 {
     public class CardCollection: IEnumerable<Card>, ICloneable
     {
-        private List<Card> _cards;
+        private SortedSet<Card> _cards;
 
 
         public CardCollection()
         {
-            _cards = new List<Card>();
+            _cards = new SortedSet<Card>();
         }
         public CardCollection(IEnumerable<Card> cards)
         {
-            _cards = new List<Card>();
-            _cards.AddRange(cards);
+            _cards = new SortedSet<Card>();
+            foreach (var card in cards)
+            {
+                _cards.Add(card);
+            }
         }
 
         public void FillDefault()
         {
             if (_cards is null)
             {
-                _cards = new List<Card>();
+                _cards = new SortedSet<Card>();
             }
             foreach (var suit in EnumUtil.GetEnumValues<Suit>())
             {
@@ -38,14 +41,15 @@ namespace DiskraChecker
 
         public void AddCardsRange(IEnumerable<Card> newCards)
         {
-            _cards.AddRange(newCards);
-            _cards = _cards.Distinct().ToList();
+            foreach (var card in newCards)
+            {
+                _cards.Add(card);
+            }
         }
         
         public void AddCard(Card newCard)
         {
             _cards.Add(newCard);
-            _cards = _cards.Distinct().ToList();
         }
 
         public void RemoveCard(Card cardToRemove)

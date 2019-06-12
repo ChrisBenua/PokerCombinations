@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace DiskraChecker
         protected BruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7)
         {
             _allDeck = new CardCollection(); _allDeck.FillDefault();
-            _myHand = new CardCollection(hand);
+            _myHand = new CardCollection(hand.OrderBy(el => el.Id));
             _forbiddenCards = new CardCollection(forbiddenCards);
             _allDeck.RemoveCardRange(_myHand);
             _allDeck.RemoveCardRange(_forbiddenCards);
@@ -41,8 +42,8 @@ namespace DiskraChecker
         protected BruteForcer(ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck
         =7)
         {
-            _allDeck = new CardCollection(allDeck);
-            _myHand = new CardCollection(hand);
+            _allDeck = new CardCollection(allDeck.OrderBy(el => el.Id));
+            _myHand = new CardCollection(hand.OrderBy(el => el.Id));
             _forbiddenCards = new CardCollection(forbiddenCards);
             _allDeck.RemoveCardRange(_myHand);
             _allDeck.RemoveCardRange(_forbiddenCards);
@@ -55,7 +56,7 @@ namespace DiskraChecker
     
     public class AnswerBruteForcer: BruteForcer
     {
-        
+        private int iterations = 0;
 
         public AnswerBruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7): base(checker,hand, forbiddenCards, cardsFromDeck)
         {
@@ -74,6 +75,7 @@ namespace DiskraChecker
         {
             if (hand.Count() == CardsFromDeck)
             {
+                iterations++;
                 if (_combinationChecker.GetMostValuableCombination(hand) == aim)
                 {
                     return 1;
@@ -83,12 +85,22 @@ namespace DiskraChecker
             }
 
             int ans = 0;
-            var deckCopy = (CardCollection)deck.Clone();
+            var deckCopy = ((CardCollection)deck.Clone()).SkipWhile(el => el.Id < (hand.LastOrDefault()?.Id ?? -1)).ToList();
             foreach (var card in deckCopy)
             {
                 hand.AddCard(card);
+
+                if (!hand.SequenceEqual(hand.OrderBy(el => el.Id)))
+                {
+                    throw new Exception();
+                }
+                
                 deck.RemoveCard(card);
                 ans += BruteForce(hand, deck, aim);
+                if (iterations % 100000 == 0)
+                {
+                    Console.WriteLine(iterations);
+                }
                 hand.RemoveCard(card);
                 deck.AddCard(card);
             }

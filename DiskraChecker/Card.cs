@@ -9,10 +9,10 @@ namespace DiskraChecker
 
     public enum Rank
     {
-        Ace = 1, Two, Three, For, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King
+        Ace = 0, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King
     }
     
-    public class Card: IEquatable<Card>
+    public class Card: IEquatable<Card>, IComparable<Card>
     {
         public Suit CardSuit { get; set; }
         
@@ -37,6 +37,11 @@ namespace DiskraChecker
             return CardSuit == other.CardSuit && CardRank == other.CardRank;
         }
 
+        public int CompareTo(Card other)
+        {
+            return Id.CompareTo(other.Id);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -51,6 +56,11 @@ namespace DiskraChecker
             {
                 return ((int) CardSuit * 397) ^ (int) CardRank;
             }
+        }
+
+        public int Id
+        {
+            get { return ((int) CardSuit) * 17 + (int) CardRank; }
         }
 
         public override string ToString()

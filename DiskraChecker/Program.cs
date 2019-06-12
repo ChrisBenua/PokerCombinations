@@ -9,20 +9,18 @@ namespace DiskraChecker
   {
     public static void Main(string[] args)
     {
-      CoreAssembly assembly = new CoreAssembly(new Card[]{new Card(Suit.Hearts, Rank.Two), new Card(Suit.Clubs, Rank.Two), new Card(Suit.Diamonds, Rank.Two),   }, Enumerable.Empty<Card>(), Enumerable.Empty<Card>(), 2);
-      assembly.CombinationChecker.AddCombinationRule(Combination.TwoOfKind, collection =>
-      {
-        foreach (var card in collection)
-        {
-          if (collection.Any(el => el.CardRank == card.CardRank && el.CardSuit != card.CardSuit))
-          {
-            return true;
-          }
-        }
-
-        return false;
-      });
-      Console.WriteLine(assembly.BruteForcer.GetAmountOfAimCombinations(Combination.TwoOfKind));
+      /*CoreAssembly assembly = new CoreAssembly(new Card[]{new Card(Suit.Clubs, Rank.Three), 
+        new Card(Suit.Hearts, Rank.Three), 
+        new Card(Suit.Hearts, Rank.Eight),}, 
+        
+        new Card[]{new Card(Suit.Hearts, Rank.Ace),
+          new Card(Suit.Spades, Rank.Four), 
+          new Card(Suit.Spades, Rank.Five), 
+          new Card(Suit.Clubs, Rank.Four), 
+          new Card(Suit.Clubs, Rank.Queen),  }, 7);*/
+      CoreAssembly assembly = new CoreAssembly(Enumerable.Empty<Card>(), Enumerable.Empty<Card>(), 5);
+      
+      Console.WriteLine(assembly.BruteForcer.GetAmountOfAimCombinations(Combination.TwoPairs));
     }
   }
 }

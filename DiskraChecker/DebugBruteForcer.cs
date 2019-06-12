@@ -6,6 +6,7 @@ namespace DiskraChecker
 {
     public class DebugBruteForcer:BruteForcer
     {
+        private int iterations = 0;
         public override int GetAmountOfAimCombinations(Combination aim)
         {
             return BruteForce(_myHand, _allDeck, aim);
@@ -13,11 +14,14 @@ namespace DiskraChecker
 
         protected override int BruteForce(CardCollection hand, CardCollection deck, Combination aim)
         {
+
             if (hand.Count() == CardsFromDeck)
             {
+                iterations++;
+
                 if (_combinationChecker.GetAllSatisfiedCombinations(hand).Contains(aim))
                 {
-                    Console.WriteLine(hand);
+                    //Console.WriteLine(hand);
                     return 1;
                 }
 
@@ -25,12 +29,22 @@ namespace DiskraChecker
             }
 
             int ans = 0;
-            var deckCopy = (CardCollection)deck.Clone();
+            var deckCopy = ((CardCollection)deck.Clone()).SkipWhile(el => el.Id < (hand.LastOrDefault()?.Id ?? -1)).ToList();
             foreach (var card in deckCopy)
             {
                 hand.AddCard(card);
+
+                if (!hand.SequenceEqual(hand.OrderBy(el => el.Id)))
+                {
+                    throw new Exception();
+                }
+                
                 deck.RemoveCard(card);
                 ans += BruteForce(hand, deck, aim);
+                if (iterations % 100000 == 0)
+                {
+                    Console.WriteLine(iterations);
+                }
                 hand.RemoveCard(card);
                 deck.AddCard(card);
             }
