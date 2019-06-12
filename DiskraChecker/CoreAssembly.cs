@@ -36,7 +36,7 @@ namespace DiskraChecker
             CombinationChecker.AddCombinationRule(Combination.ThreeOfKind, CombinationRulesProvider.GetThreeOfKindRule());
             CombinationChecker.AddCombinationRule(Combination.TwoOfKind, CombinationRulesProvider.GetTwoOfKindRule());
             CombinationChecker.AddCombinationRule(Combination.ThreePlusTwoOfKind, CombinationRulesProvider.GetThreePlusTwoOfKindRule());
-
+            CombinationChecker.AddCombinationRule(Combination.RoyalFlush, CombinationRulesProvider.GetRoyalFlushRule());
         }
         
         public CoreAssembly(IEnumerable<Card> deck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int handCards, bool debug)

@@ -62,7 +62,7 @@ namespace DiskraChecker
             return (collection) =>
             {
                 var groupedCollection = collection.GroupBy(el => el.CardSuit).Where(el => el.Count() >= 5);
-                if (groupedCollection.Any())
+                if (!groupedCollection.Any())
                 {
                     return false;
                 }
@@ -74,7 +74,7 @@ namespace DiskraChecker
                         bool ok = true;
                         for (int j = 0; j < 5; ++j)
                         {
-                            ok &= group.Any(crd => (int) crd.CardRank == (i + j) % 14);
+                            ok &= group.Any(crd => (int) crd.CardRank == (i + j) % 13);
                         }
 
                         if (ok)
@@ -131,7 +131,7 @@ namespace DiskraChecker
                     bool ok = true;
                     for (int j = 0; j < 5; ++j)
                     {
-                        ok &= dict.ContainsKey((i+j) % 14);
+                        ok &= dict.ContainsKey((i+j) % 13);
                     }
 
                     if (ok)

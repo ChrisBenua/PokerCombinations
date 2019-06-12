@@ -9,6 +9,17 @@ namespace DiskraChecker
   {
     public static void Main(string[] args)
     {
+
+      (new DefaultCombinationRulesProvider()).GetStraightFlushRule().Invoke(new CardCollection(new Card[]
+      {
+        new Card(Suit.Hearts, Rank.Two),
+        new Card(Suit.Hearts, Rank.Three),
+        new Card(Suit.Hearts, Rank.Four),
+        new Card(Suit.Hearts, Rank.Five),
+        new Card(Suit.Hearts, Rank.Six),
+
+      }));
+      
       CoreAssembly assembly = new CoreAssembly(new Card[]{new Card(Suit.Clubs, Rank.Three), 
         new Card(Suit.Hearts, Rank.Three), 
         new Card(Suit.Hearts, Rank.Eight),}, 
