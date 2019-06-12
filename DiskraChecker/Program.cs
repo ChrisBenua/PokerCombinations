@@ -9,7 +9,7 @@ namespace DiskraChecker
   {
     public static void Main(string[] args)
     {
-      /*CoreAssembly assembly = new CoreAssembly(new Card[]{new Card(Suit.Clubs, Rank.Three), 
+      CoreAssembly assembly = new CoreAssembly(new Card[]{new Card(Suit.Clubs, Rank.Three), 
         new Card(Suit.Hearts, Rank.Three), 
         new Card(Suit.Hearts, Rank.Eight),}, 
         
@@ -17,8 +17,8 @@ namespace DiskraChecker
           new Card(Suit.Spades, Rank.Four), 
           new Card(Suit.Spades, Rank.Five), 
           new Card(Suit.Clubs, Rank.Four), 
-          new Card(Suit.Clubs, Rank.Queen),  }, 7);*/
-      CoreAssembly assembly = new CoreAssembly(Enumerable.Empty<Card>(), Enumerable.Empty<Card>(), 5);
+          new Card(Suit.Clubs, Rank.Queen),  }, 7, debug:true);
+      //CoreAssembly assembly = new CoreAssembly(Enumerable.Empty<Card>(), Enumerable.Empty<Card>(), 5);
       
       Console.WriteLine(assembly.BruteForcer.GetAmountOfAimCombinations(Combination.TwoPairs));
     }

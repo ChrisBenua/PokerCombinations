@@ -9,14 +9,20 @@ namespace DiskraChecker
         
         public ICombinationRulesProvider CombinationRulesProvider { get; }
 
-        public CoreAssembly(IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int handCards)
+        public CoreAssembly(IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int handCards, bool debug)
         {
             CombinationChecker = new CombinationChecker();
             CombinationRulesProvider = new DefaultCombinationRulesProvider();
             
            AddRules();
-            
-            BruteForcer = new AnswerBruteForcer(CombinationChecker,hand, forbiddenCards, handCards);
+           if (debug)
+           {
+               BruteForcer = new DebugBruteForcer(CombinationChecker, hand, forbiddenCards, handCards);
+           }
+           else
+           {
+               BruteForcer = new AnswerBruteForcer(CombinationChecker, hand, forbiddenCards, handCards);
+           }
         }
 
         private void AddRules()
@@ -33,11 +39,19 @@ namespace DiskraChecker
 
         }
         
-        public CoreAssembly(IEnumerable<Card> deck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int handCards)
+        public CoreAssembly(IEnumerable<Card> deck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int handCards, bool debug)
         {
             CombinationChecker = new CombinationChecker();
             AddRules();
-            BruteForcer = new AnswerBruteForcer(CombinationChecker,deck, hand, forbiddenCards, handCards);
+            
+            if (debug)
+            {
+                BruteForcer = new DebugBruteForcer(CombinationChecker,deck, hand, forbiddenCards, handCards);
+            }
+            else
+            {
+                BruteForcer = new AnswerBruteForcer(CombinationChecker,deck, hand, forbiddenCards, handCards);
+            }
         }
     }
 }
