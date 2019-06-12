@@ -53,7 +53,8 @@ namespace DiskraChecker
         {
             return (collection) =>
             {
-                return collection.GroupBy(el => el.CardRank).Any(el => el.Count() >= 2);
+                var res = collection.GroupBy(el => el.CardRank).Any(el => el.Count() >= 2);
+                return res;
             };
         }
 
