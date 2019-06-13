@@ -77,7 +77,7 @@ namespace DiskraChecker
             {
                 iterations++;
                 var myHand = newHand.ToList();
-                myHand.AddRange(newHand);
+                myHand.AddRange(beginHand);
                 var cardCol = new CardCollection(myHand);
                 if (_combinationChecker.GetMostValuableCombination(cardCol) == aim)
                 {

@@ -20,11 +20,11 @@ namespace DiskraChecker
                 iterations++;
                 
                 var myHand = newHand.ToList();
-                myHand.AddRange(newHand);
+                myHand.AddRange(beginHand);
                 var cardCol = new CardCollection(myHand);
                 if (_combinationChecker.GetAllSatisfiedCombinations(cardCol).Contains(aim))
                 {
-                    //Console.WriteLine(cardCol);
+                //    Console.WriteLine(cardCol);
                     return 1;
                 }
 
