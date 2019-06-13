@@ -12,6 +12,8 @@ namespace DiskraChecker
     public abstract class BruteForcer : IBruteForcer
     {
         public readonly int CardsFromDeck;
+
+        protected Func<IEnumerable<Combination>, bool> _myHandCheckRule;
         
         public abstract int GetAmountOfAimCombinations(Combination aim);
         
@@ -52,6 +54,11 @@ namespace DiskraChecker
         }
 
         protected abstract int BruteForce(CardCollection beginHand, CardCollection newHand, CardCollection deck, Combination aim);
+
+        public void SetHandCheckRule(Func<IEnumerable<Combination>, bool> rule)
+        {
+            this._myHandCheckRule = rule;
+        }
     }
     
     public class AnswerBruteForcer: BruteForcer
@@ -79,10 +86,21 @@ namespace DiskraChecker
                 var myHand = newHand.ToList();
                 myHand.AddRange(beginHand);
                 var cardCol = new CardCollection(myHand);
-                if (_combinationChecker.GetMostValuableCombination(cardCol) == aim)
+                if (this._myHandCheckRule is null)
                 {
-                    //Console.WriteLine(cardCol);
-                    return 1;
+                    if (_combinationChecker.GetMostValuableCombination(cardCol) == aim)
+                    {
+                        //Console.WriteLine(cardCol);
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if (_myHandCheckRule.Invoke(_combinationChecker.GetAllSatisfiedCombinations(cardCol)))
+                    {
+                        //Console.WriteLine(cardCol);
+                        return 1;
+                    }
                 }
 
                 return 0;

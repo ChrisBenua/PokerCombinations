@@ -22,10 +22,21 @@ namespace DiskraChecker
                 var myHand = newHand.ToList();
                 myHand.AddRange(beginHand);
                 var cardCol = new CardCollection(myHand);
-                if (_combinationChecker.GetAllSatisfiedCombinations(cardCol).Contains(aim))
+                if (_myHandCheckRule is null)
                 {
-                //    Console.WriteLine(cardCol);
-                    return 1;
+                    if (_combinationChecker.GetAllSatisfiedCombinations(cardCol).Contains(aim))
+                    {
+                        //Console.WriteLine(cardCol);
+                        return 1;
+                    }
+                }
+                else
+                {
+                    if (_myHandCheckRule.Invoke(_combinationChecker.GetAllSatisfiedCombinations(cardCol)))
+                    {
+                        //Console.WriteLine(cardCol);
+                        return 1;
+                    }
                 }
 
                 return 0;

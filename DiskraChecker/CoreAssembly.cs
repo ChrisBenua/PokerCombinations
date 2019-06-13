@@ -27,14 +27,14 @@ namespace DiskraChecker
 
         private void AddRules()
         {
-            CombinationChecker.AddCombinationRule(Combination.TwoPairs, CombinationRulesProvider.GetTwoPairsRule());
-            CombinationChecker.AddCombinationRule(Combination.Flush, CombinationRulesProvider.GetFlushRule());
+            //CombinationChecker.AddCombinationRule(Combination.TwoPairs, CombinationRulesProvider.GetTwoPairsRule());
+            //CombinationChecker.AddCombinationRule(Combination.Flush, CombinationRulesProvider.GetFlushRule());
             CombinationChecker.AddCombinationRule(Combination.None, el=> true);
-            //CombinationChecker.AddCombinationRule(Combination.Straight, CombinationRulesProvider.GetStraightRule());
+            CombinationChecker.AddCombinationRule(Combination.Straight, CombinationRulesProvider.GetStraightRule());
             //CombinationChecker.AddCombinationRule(Combination.StraightFlush, CombinationRulesProvider.GetStraightFlushRule());
-            CombinationChecker.AddCombinationRule(Combination.FourOfKind, CombinationRulesProvider.GetFourOfKindRule());
-            //CombinationChecker.AddCombinationRule(Combination.ThreeOfKind, CombinationRulesProvider.GetThreeOfKindRule());
-            //CombinationChecker.AddCombinationRule(Combination.TwoOfKind, CombinationRulesProvider.GetTwoOfKindRule());
+            //CombinationChecker.AddCombinationRule(Combination.FourOfKind, CombinationRulesProvider.GetFourOfKindRule());
+            CombinationChecker.AddCombinationRule(Combination.ThreeOfKind, CombinationRulesProvider.GetThreeOfKindRule());
+            CombinationChecker.AddCombinationRule(Combination.TwoOfKind, CombinationRulesProvider.GetTwoOfKindRule());
             //CombinationChecker.AddCombinationRule(Combination.ThreePlusTwoOfKind, CombinationRulesProvider.GetThreePlusTwoOfKindRule());
             CombinationChecker.AddCombinationRule(Combination.RoyalFlush, CombinationRulesProvider.GetRoyalFlushRule());
         }
