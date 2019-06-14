@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiskraChecker
 {
-
     public interface ICombinationRulesProvider
     {
         Func<CardCollection, bool> GetRoyalFlushRule();//
@@ -100,6 +100,8 @@ namespace DiskraChecker
             return (collection) =>
                 {
                     var res = collection.GroupBy(el => el.CardRank).Select(el => el.Count());
+                    
+                    res = res.OrderByDescending(el => el);
                     return res.Count(el => el >= 2) >= 2;
                 };
         }

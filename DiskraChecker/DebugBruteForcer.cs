@@ -26,6 +26,7 @@ namespace DiskraChecker
                 {
                     if (_combinationChecker.GetAllSatisfiedCombinations(cardCol).Contains(aim))
                     {
+                        _rankDistribuitonCounter.AddToDistribution(cardCol);
                         //Console.WriteLine(cardCol);
                         return 1;
                     }
@@ -34,6 +35,7 @@ namespace DiskraChecker
                 {
                     if (_myHandCheckRule.Invoke(_combinationChecker.GetAllSatisfiedCombinations(cardCol)))
                     {
+                        _rankDistribuitonCounter.AddToDistribution(cardCol);
                         //Console.WriteLine(cardCol);
                         return 1;
                     }
@@ -61,15 +63,15 @@ namespace DiskraChecker
             return ans;
         }
 
-        public DebugBruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards) : base(checker,hand, forbiddenCards)
+        public DebugBruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards) : base(rankDistribuitonCounter,checker,hand, forbiddenCards)
         {
         }
 
-        public DebugBruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck):base(checker,hand, forbiddenCards, cardsFromDeck)
+        public DebugBruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck):base(rankDistribuitonCounter,checker,hand, forbiddenCards, cardsFromDeck)
         {
         }
         
-        public DebugBruteForcer(ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck):base(checker,allDeck, hand, forbiddenCards, cardsFromDeck)
+        public DebugBruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck):base(rankDistribuitonCounter,checker,allDeck, hand, forbiddenCards, cardsFromDeck)
         {
         }
     }

@@ -13,6 +13,8 @@ namespace DiskraChecker
     {
         public readonly int CardsFromDeck;
 
+        protected IRankDistribuitonCounter _rankDistribuitonCounter;
+
         protected Func<IEnumerable<Combination>, bool> _myHandCheckRule;
         
         public abstract int GetAmountOfAimCombinations(Combination aim);
@@ -30,8 +32,9 @@ namespace DiskraChecker
             CardsFromDeck = 7;
         }
 
-        protected BruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7)
+        protected BruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7)
         {
+            _rankDistribuitonCounter = rankDistribuitonCounter;
             _allDeck = new CardCollection(); _allDeck.FillDefault();
             _myHand = new CardCollection(hand.OrderBy(el => el.Id));
             _forbiddenCards = new CardCollection(forbiddenCards);
@@ -41,9 +44,10 @@ namespace DiskraChecker
             _combinationChecker = checker;
         }
 
-        protected BruteForcer(ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck
+        protected BruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck
         =7)
         {
+            _rankDistribuitonCounter = rankDistribuitonCounter;
             _allDeck = new CardCollection(allDeck.OrderBy(el => el.Id));
             _myHand = new CardCollection(hand.OrderBy(el => el.Id));
             _forbiddenCards = new CardCollection(forbiddenCards);
@@ -65,11 +69,11 @@ namespace DiskraChecker
     {
         private int iterations = 0;
 
-        public AnswerBruteForcer(ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7): base(checker,hand, forbiddenCards, cardsFromDeck)
+        public AnswerBruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7): base(rankDistribuitonCounter,checker,hand, forbiddenCards, cardsFromDeck)
         {
         }
         
-        public AnswerBruteForcer(ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7): base(checker,allDeck, hand, forbiddenCards, cardsFromDeck)
+        public AnswerBruteForcer(IRankDistribuitonCounter rankDistribuitonCounter, ICombinationChecker checker, IEnumerable<Card> allDeck, IEnumerable<Card> hand, IEnumerable<Card> forbiddenCards, int cardsFromDeck=7): base(rankDistribuitonCounter,checker,allDeck, hand, forbiddenCards, cardsFromDeck)
         {
         }
         
@@ -90,6 +94,8 @@ namespace DiskraChecker
                 {
                     if (_combinationChecker.GetMostValuableCombination(cardCol) == aim)
                     {
+                        _rankDistribuitonCounter.AddToDistribution(cardCol);
+
                         //Console.WriteLine(cardCol);
                         return 1;
                     }
@@ -98,6 +104,8 @@ namespace DiskraChecker
                 {
                     if (_myHandCheckRule.Invoke(_combinationChecker.GetAllSatisfiedCombinations(cardCol)))
                     {
+                        _rankDistribuitonCounter.AddToDistribution(cardCol);
+
                         //Console.WriteLine(cardCol);
                         return 1;
                     }
